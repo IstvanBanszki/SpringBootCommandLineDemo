@@ -8,12 +8,12 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class WikipediaApi implements IWikipediaApi {
 
-    private final String BASE_URL = "https://en.wikipedia.org/w/api.php?";
-    private final String ACTION_PARAM = "action=query";
-    private final String TITLE_PARAM = "&titles=";
-    private final String PROP_PARAM = "&prop=revisions";
-    private final String RVPROP_PARAM = "&rvprop=content";
-    private final String FORMAT_PARAM = "&format=";
+    private static final String BASE_URL = "https://en.wikipedia.org/w/api.php?";
+    private static final String ACTION_PARAM = "action=query";
+    private static final String TITLE_PARAM = "&titles=";
+    private static final String PROP_PARAM = "&prop=revisions";
+    private static final String RVPROP_PARAM = "&rvprop=content";
+    private static final String FORMAT_PARAM = "&format=";
     
     @Autowired
     private RestTemplate restTemplate;

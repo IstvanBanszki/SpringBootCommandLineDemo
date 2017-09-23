@@ -3,7 +3,9 @@ package com.gdp.parser;
 import com.gdp.model.Country;
 import com.gdp.model.Organization;
 import java.util.List;
+import org.springframework.stereotype.Component;
 
+@Component
 public class XmlParser extends AbstractParser implements IParser {
 
     @Override

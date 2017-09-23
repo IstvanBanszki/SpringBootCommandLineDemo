@@ -5,9 +5,9 @@ import java.util.Arrays;
 
 public enum Organization {
 
-    IMF("International Monetary Fund"),
-    WB("World Bank"),
-    UN("United Nations");
+    IMF("INTERNATIONAL MONETARY FUND (IMF)"),
+    WB("WORLD BANK"),
+    UN("UNITED NATIONS");
     
     private final String value;
     
