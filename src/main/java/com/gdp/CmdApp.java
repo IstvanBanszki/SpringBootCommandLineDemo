@@ -21,7 +21,7 @@ public class CmdApp implements CommandLineRunner {
     
     @Override
     public void run(String... args) {
-        this.processor.getCountries(Organization.IMF, ContentFormat.JSON);
+        this.processor.getCountries(Organization.UN, ContentFormat.XML);
     }
 
     public static void main(String[] args) throws Exception {

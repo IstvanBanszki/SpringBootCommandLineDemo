@@ -1,6 +1,5 @@
 package com.gdp.model;
 
-import static com.gdp.model.ContentFormat.JSON;
 import java.util.Arrays;
 
 public enum Organization {

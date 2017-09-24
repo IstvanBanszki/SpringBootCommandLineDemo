@@ -4,12 +4,17 @@ import com.gdp.model.Country;
 import com.gdp.model.Organization;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Logger;
 import org.springframework.stereotype.Component;
 
 @Component
 public class JsonParser extends AbstractParser implements IParser {
     
     private final String REGEX = "\\\\n\\|-";
+    
+    public JsonParser() {
+        super(Logger.getLogger(JsonParser.class.getName()));
+    }
     
     @Override
     public List<Country> parsingCountries(String content, Organization org) {
@@ -19,17 +24,11 @@ public class JsonParser extends AbstractParser implements IParser {
         String[] countries = orgCountries.split(REGEX);
         
         for (int index = 1; index < countries.length; index ++) {
-            if(countries[index].length() > 16) {
+            if(countries[index].length() > 26) {
                 countryList.add(getCountry(countries[index]));
             }
         }
         return countryList;
-    }
-    
-    private Country getCountry(String line) {
-        String country = line.substring(line.lastIndexOf("flag|")+5, line.lastIndexOf("}}"));
-        int gdp = Integer.valueOf(line.substring(line.lastIndexOf("||")+2).replaceAll(",", "").replaceAll(" ", ""));
-        return new Country(country, gdp);
     }
     
 }

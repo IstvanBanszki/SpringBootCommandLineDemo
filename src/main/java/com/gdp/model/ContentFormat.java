@@ -4,7 +4,6 @@ import java.util.Arrays;
 
 public enum ContentFormat {
     
-    NONE("none"),
     JSON("json"),
     XML("xml");
     

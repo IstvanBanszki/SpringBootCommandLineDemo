@@ -1,42 +1,62 @@
 package com.gdp.parser;
 
+import com.gdp.model.Country;
 import com.gdp.model.Organization;
 import static java.util.logging.Level.INFO;
 import java.util.logging.Logger;
 
 public class AbstractParser {
     
-    protected static final Logger LOG = Logger.getLogger(AbstractParser.class.getName());
+    private final Logger logger;
     
-    private static final String ORG_SUFFIX = "<!--";
-    private static final String ORG_POSTFIX = "-->";
+    public AbstractParser(Logger logger) {
+        this.logger = logger;
+    }
+    
+    private static final String ORG_SUFFIX = "--";
+    private static final String ORG_POSTFIX = "--";
     
     protected String getOrganizationCountries(String content, Organization org){
-        int from = content.lastIndexOf(ORG_SUFFIX+getFrom(org)+ORG_POSTFIX);
-        int to = content.lastIndexOf(ORG_SUFFIX+getTo(org)+ORG_POSTFIX);        
-        String subContent =content.substring(from, to);
-        LOG.log(INFO, "SubContent length - {0} value - {1}", new Object[] {subContent.length(), subContent});
+        int from = content.indexOf(getFrom(org));
+        int to = content.indexOf(getTo(org));
+        String subContent = content.substring(from, to);
+        logger.log(INFO, "SubContent length - {0}", subContent.length());
         return subContent;
     }   
     
-    private String getFrom(Organization org) {        
-        if (org == Organization.IMF) {
-            return Organization.IMF.getValue();
-        } else if (org == Organization.WB) {
-            return Organization.WB.getValue();
-        } else {
-            return Organization.UN.getValue();
-        }
+    protected Country getCountry(String line) {
+        String countryName = line.substring(line.lastIndexOf("flag|")+5, line.lastIndexOf("}}"));
+        String number = line.substring(line.lastIndexOf("||")+2)
+                .replaceAll(",", "")
+                .replaceAll("[\\D\\s]", "");
+        int gdp = Integer.valueOf(number);
+        Country country = new Country(countryName, gdp);
+        logger.log(INFO, "Processed - {0}", country);
+        return country;
     }
     
-    private String getTo(Organization org) {        
+    private String getFrom(Organization org) {     
+        String from;
         if (org == Organization.IMF) {
-            return Organization.WB.getValue();
+            from = Organization.IMF.getValue();
         } else if (org == Organization.WB) {
-            return Organization.UN.getValue();
+            from = Organization.WB.getValue();
         } else {
-            return "==See also==";
+            from = Organization.UN.getValue();
         }
+        return ORG_SUFFIX + from + ORG_POSTFIX;
+    }
+    
+    private String getTo(Organization org) {    
+        String to;       
+        if (org == Organization.IMF) {
+            to = ORG_SUFFIX + Organization.WB.getValue() + ORG_POSTFIX;
+        } else if (org == Organization.WB) {
+            to = ORG_SUFFIX + Organization.UN.getValue() + ORG_POSTFIX;
+        } else {
+            to = "==See also==";
+        }
+        return to;
     }
     
 }

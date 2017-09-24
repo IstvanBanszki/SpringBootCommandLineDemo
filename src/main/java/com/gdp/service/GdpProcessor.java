@@ -32,7 +32,7 @@ public class GdpProcessor implements IGdpProcessor {
             throw new IllegalArgumentException();
         }
 
-        String content = api.getPageContent(TITLE, format);
+        String content = this.api.getPageContent(TITLE, format);
         LOG.log(INFO, "Content length - {0} getting from - {1}", new Object[]{content.length(), TITLE});
 
         switch (format) {
